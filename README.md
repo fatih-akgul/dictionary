@@ -1,10 +1,10 @@
 # DICTIONARY
 This project implements a dictionary website where the data from Wiktionary is utilized
 
-## Running locally
+## Running the project locally
 Environment variables required:
-- values in **postgres.template.env** need to be in **postgres.env**
-- values in **.templete.env** need to be in **.env**
+- values in **postgres.env.dist** need to be in **postgres.env**
+- values in **.env.dist** need to be in **.env**
 
 Django-Postgres connection:
 We need pg_config for Django to work with Postgres. Install it with:
@@ -27,9 +27,14 @@ Install requirements:
 pip install -r requirements.txt
 ```
 
-Add a newly installed requirement to requirements.txt (Django in this example):
+Apply DB migrations:
 ```bash
-pip freeze | grep Django >> requirements.txt
+python manage.py migrate
+```
+
+Start django from commandline:
+```bash
+python manage.py runserver
 ```
 
 Docker instructions:
@@ -44,3 +49,15 @@ Command to run psql inside the postgres container:
 docker exec -it dictionary-postgres psql -U <dictionary-user> -W <dictionary-db>
 ```
 
+Useful commands:
+--
+Add a newly installed requirement to requirements.txt (Django in this example):
+```bash
+pip freeze | grep Django >> requirements.txt
+```
+
+
+References:
+--
+Django settings best practices:
+https://djangostars.com/blog/configuring-django-settings-best-practices/
