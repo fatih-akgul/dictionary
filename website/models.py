@@ -1,20 +1,27 @@
+import uuid
+
 from django.db import models
 
 
 class Entry(models.Model):
-    id = models.UUIDField(primary_key=True)
-    word = models.CharField(max_length=200, unique=True)
-    simplified_word = models.CharField(max_length=200)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    word = models.CharField(max_length=200)
     language = models.CharField(max_length=5)
+    simplified_word = models.CharField(max_length=200)
     audio_url = models.CharField(max_length=200)
     date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['word', 'language'], name='unique_word_language')
+        ]
 
     def __str__(self):
         return self.word
 
 
 class Meaning(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
     language_from = models.CharField(max_length=5)
     language_to = models.CharField(max_length=5)
