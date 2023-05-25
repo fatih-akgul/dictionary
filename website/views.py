@@ -1,5 +1,12 @@
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+
+from website.models import Entry
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the TD index..")
+    return render(request, 'website/index.html')
+
+
+def word_details(request, word):
+    word = get_object_or_404(Entry, word=word)
+    return render(request, 'website/index.html', {'word': word})

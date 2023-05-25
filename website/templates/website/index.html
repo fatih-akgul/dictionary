@@ -1,0 +1,9 @@
+{% if word %}
+    <strong>{{ word }}: </strong> meaning
+    <br>
+    <a href="{% url 'website:index' %}">Home</a>
+{% else %}
+    Home page
+    <br>
+    <a href="{% url 'website:word_details' 'araba' %}">Araba</a>
+{% endif %}

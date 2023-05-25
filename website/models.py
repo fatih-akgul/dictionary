@@ -8,7 +8,7 @@ class Entry(models.Model):
     word = models.CharField(max_length=200)
     language = models.CharField(max_length=5)
     simplified_word = models.CharField(max_length=200)
-    audio_url = models.CharField(max_length=200)
+    audio_url = models.CharField(max_length=200, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
