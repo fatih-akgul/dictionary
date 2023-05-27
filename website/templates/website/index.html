@@ -4,6 +4,15 @@
     <a href="{% url 'website:index' %}">Home</a>
 {% else %}
     Home page
-    <br>
+    <br><br>
     <a href="{% url 'website:word_details' 'araba' %}">Araba</a>
+    <br><br>
+    <form action="{% url 'website:lookup_redirect' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <input type="text" name="word" id="word">
+    </fieldset>
+    <input type="submit" value="Lookup">
+    </form>
 {% endif %}
