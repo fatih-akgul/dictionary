@@ -1,20 +1,26 @@
-from django.shortcuts import render, get_object_or_404, redirect
-
+from django.urls import reverse
+from django.views import generic
 from website.models import Entry
 
 
-def index(request):
-    return render(request, 'website/index.html')
+class IndexView(generic.TemplateView):
+    template_name = 'website/index.html'
 
 
-def word_details(request, word):
-    word_obj = get_object_or_404(Entry, word=word)
-    return render(request, 'website/index.html', {'word': word_obj})
+class WordView(generic.DetailView):
+    model = Entry
+    context_object_name = 'word'  # name of the retrieved object in the template
+    slug_url_kwarg = 'word'  # name of the lookup parameter in urls.py
+    slug_field = 'word'  # name of the field in the model to lookup
+    template_name = 'website/index.html'
 
 
-def lookup_redirect(request):
-    word = request.POST.get('word')
-    # Always return an HttpResponseRedirect after successfully dealing
-    # with POST data. This prevents data from being posted twice if a
-    # user hits the Back button.
-    return redirect('website:word_details', word)
+class LookupRedirectView(generic.RedirectView):
+    permanent = False
+    query_string = True
+    pattern_name = 'website:word_details'
+
+    def get_redirect_url(self, *args, **kwargs):
+        word = self.request.POST.get('word')
+        url = reverse(self.pattern_name, args=(word,))
+        return url
